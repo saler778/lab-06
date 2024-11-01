@@ -403,16 +403,51 @@ library(ggplot2)</code></pre>
 <pre class="r"><code>diamonds &lt;- diamonds %&gt;%
   mutate(table_mm = table_pct * width_mm / 100)
 
-# Overall table_mm arithmetic mean?
-
-
-
-
-
-
-# table_mm arithmetic mean within each clarity category</code></pre>
-<p><em>Add your comment here</em></p>
-<pre class="r"><code># calculate the arithmetic mean across all numeric variables</code></pre>
+diamonds %&gt;% 
+  summarise( 
+    table_mm_mean = mean(table_mm))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   table_mm_mean
+##           &lt;dbl&gt;
+## 1          3.30</code></pre>
+<pre class="r"><code>diamonds %&gt;% 
+  na.omit(diamonds) %&gt;%
+  group_by(clarity) %&gt;% 
+  summarise(
+    table_mm_mean = mean(table_mm))</code></pre>
+<pre><code>## # A tibble: 8 × 2
+##   clarity table_mm_mean
+##   &lt;ord&gt;           &lt;dbl&gt;
+## 1 I1               3.91
+## 2 SI2              3.71
+## 3 SI1              3.40
+## 4 VS2              3.25
+## 5 VS1              3.20
+## 6 VVS2             2.98
+## 7 VVS1             2.83
+## 8 IF               2.82</code></pre>
+<p>There is a consistent trend that as clarity increases average table
+length decerases. This may be due to the fact that smaller diamonds have
+less chance of having imperfections</p>
+<pre class="r"><code>diamonds %&gt;%
+summarise(across(where(is.numeric), mean, na.rm = TRUE, .names = &quot;avg_{.col}&quot;))</code></pre>
+<pre><code>## Warning: There was 1 warning in `summarise()`.
+## ℹ In argument: `across(where(is.numeric), mean, na.rm = TRUE, .names =
+##   &quot;avg_{.col}&quot;)`.
+## Caused by warning:
+## ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+## Supply arguments directly to `.fns` through an anonymous function instead.
+## 
+##   # Previously
+##   across(a:b, mean, na.rm = TRUE)
+## 
+##   # Now
+##   across(a:b, \(x) mean(x, na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 1 × 8
+##   avg_carat avg_depth_pct avg_table_pct avg_price avg_length_mm avg_width_mm
+##       &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+## 1     0.798          61.7          57.5     3933.          5.73         5.73
+## # ℹ 2 more variables: avg_depth_mm &lt;dbl&gt;, avg_table_mm &lt;dbl&gt;</code></pre>
 </div>
 <div id="exercise-3" class="section level2">
 <h2>Exercise 3</h2>

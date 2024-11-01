@@ -48,15 +48,20 @@ diamonds %>%
 diamonds <- diamonds %>%
   mutate(table_mm = table_pct * width_mm / 100)
 
-# Overall table_mm arithmetic mean?
+diamonds %>% 
+  summarise( 
+    table_mm_mean = mean(table_mm))
 
 
 
 
 
 
-# table_mm arithmetic mean within each clarity category
-
+diamonds %>% 
+  na.omit(diamonds) %>%
+  group_by(clarity) %>% 
+  summarise(
+    table_mm_mean = mean(table_mm))
 
 
 
@@ -64,11 +69,11 @@ diamonds <- diamonds %>%
 
 ```
 
-_Add your comment here_
-
+There is a consistent trend that as clarity increases average table length decerases. This may be due to the fact that smaller diamonds have less chance of having imperfections 
 ```{r}
-# calculate the arithmetic mean across all numeric variables
 
+diamonds %>%
+summarise(across(where(is.numeric), mean, na.rm = TRUE, .names = "avg_{.col}"))
 
 
 
@@ -78,6 +83,7 @@ _Add your comment here_
 
 ```{r}
 # Write gmean() command
+
 
 
 
