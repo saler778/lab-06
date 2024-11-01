@@ -451,7 +451,15 @@ summarise(across(where(is.numeric), mean, na.rm = TRUE, .names = &quot;avg_{.col
 </div>
 <div id="exercise-3" class="section level2">
 <h2>Exercise 3</h2>
-<pre class="r"><code># Write gmean() command</code></pre>
+<pre class="r"><code># Write gmean() command
+gmean &lt;- function(x) {
+  
+  x &lt;- x[x &gt; 0]
+  
+  geometric_mean &lt;- exp(mean(log(x)))
+  
+  return(geometric_mean)
+}</code></pre>
 </div>
 <div id="exercise-4" class="section level2">
 <h2>Exercise 4</h2>
